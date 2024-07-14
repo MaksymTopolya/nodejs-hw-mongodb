@@ -21,8 +21,6 @@ export function setupServer() {
         next();
     });
 
-
-    
       app.get('/contacts', async (req, res) => {
         try {
             const contacts = await Contact.find();
@@ -36,6 +34,7 @@ export function setupServer() {
           }
           
       });
+    
        app.get('/contacts/:contactId', async (req, res) => {
         try {
             const { contactId } = req.params;
