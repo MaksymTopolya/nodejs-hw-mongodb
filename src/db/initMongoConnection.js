@@ -1,10 +1,9 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+
 
 async function initMongoConnection() {
-    dotenv.config();
   try {
-    const MONGODB_URL = process.env.MONGODB_URL || '3000';
+    const MONGODB_URL = process.env.MONGODB_URL;
 
     await mongoose.connect(MONGODB_URL);
 
