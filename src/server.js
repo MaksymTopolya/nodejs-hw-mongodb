@@ -3,7 +3,7 @@ import cors from 'cors';
 import pino from 'pino';
 import dotenv from 'dotenv';
 import Contact from './contactSchema.js';
-import mongoose from 'mongoose';
+
 dotenv.config();
 
 export function setupServer() {
