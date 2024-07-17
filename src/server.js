@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import pino from 'pino';
 import dotenv from 'dotenv';
-import Contact from './contactSchema.js';
+import Contact from './db/models/contactSchema.js';
 
 dotenv.config();
 
@@ -21,42 +21,54 @@ export function setupServer() {
         next();
     });
 
-      app.get('/contacts', async (req, res) => {
+    app.get('/contacts', async (req, res) => {
         try {
             const contacts = await Contact.find();
-             res.status(200).send({
-            message: 'Successfully found contacts!',
-            contacts: contacts
-        });
-        } catch (error) {
-            console.error(error.message);
-            res.status(500).send('Internal Server Error');
-          }
-          
-      });
-    
-       app.get('/contacts/:contactId', async (req, res) => {
-        try {
-            const { contactId } = req.params;
-
-            const contact = await Contact.findById(contactId);
-
-            if (!contact) {
-                return res.status(404).json({ message: 'Contact not found' });
-            }
-
             res.status(200).json({
-                message: 'Successfully found contact!',
-                contact: contact
+                status: 200,
+                message: 'Successfully found contacts!',
+                data: contacts
             });
         } catch (error) {
             console.error(error.message);
-            res.status(500).send('Internal Server Error');
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error',
+                error: error.message
+            });
         }
-    });;
+    });
 
-    app.use((req, res, next) => {
+    app.get('/contacts/:contactId', async (req, res) => {
+        try {
+            const { contactId } = req.params;
+            const contact = await Contact.findById(contactId);
+
+            if (!contact) {
+                return res.status(404).json({
+                    status: 404,
+                    message: 'Contact not found'
+                });
+            }
+
+            res.status(200).json({
+                status: 200,
+                message: 'Successfully found contact!',
+                data: contact
+            });
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).json({
+                status: 500,
+                message: 'Internal Server Error',
+                error: error.message
+            });
+        }
+    });
+
+    app.use((req, res) => {
         res.status(404).json({
+            status: 404,
             message: 'Not found',
         });
     });
