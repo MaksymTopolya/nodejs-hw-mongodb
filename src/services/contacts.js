@@ -1,13 +1,28 @@
-
 import Contact from '../db/models/contactSchema.js';
- 
-export const getContacts = async () => {
-    const contacts = await Contact.find();
-    return contacts;
-};
 
+function getContacts() {
+  return Contact.find();
+}
 
-export const getContactById = async (contactId) => {
-        const contact = await Contact.findById(contactId);
-        return contact;
+function getContactById(contactId) {  
+  return Contact.findById(contactId); 
+}
+
+function createContact(contact) {
+  return Contact.create(contact);
+}
+
+function deleteContact(contactId) {
+  return Contact.findByIdAndDelete(contactId);
+}
+
+function updateContact(contactId, contact) {
+  return Contact.findByIdAndUpdate(contactId, contact, { new: true }); 
+}
+
+export {
+  getContacts,
+  getContactById,
+  createContact,
+  deleteContact, updateContact
 };
