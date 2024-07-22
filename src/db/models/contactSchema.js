@@ -27,10 +27,19 @@ const contactSchema = new mongoose.Schema(
     },
     {
         timestamps: true,
+        toJSON: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                return ret;
+            }
+        },
+        toObject: {
+            transform: function (doc, ret) {
+                delete ret.__v;
+                return ret;
+            }
+        }
     }
 );
-
-
-
 
 export default mongoose.model('Contact', contactSchema);
