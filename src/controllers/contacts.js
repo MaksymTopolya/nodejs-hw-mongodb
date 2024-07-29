@@ -1,10 +1,23 @@
 import createHttpError from 'http-errors';
 import * as ContactService from '../services/contacts.js';
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
  
 
 async function getContacts(req, res, next) {
-    const contacts = await ContactService.getContacts();
-    res.send({ status: 200, data: contacts });
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query);
+    const contacts = await ContactService.getContacts({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+  });
+  res.send({
+    status: 200,
+    message: "Successfully found contacts!",
+    data: contacts
+  });
 };
 
 
