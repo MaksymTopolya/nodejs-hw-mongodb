@@ -15,12 +15,6 @@ export const contactSchema = Joi.object({
     'string.email': 'Email is not valid',
     'any.required': 'Email is required'
   }),
-  year: Joi.number().integer().min(1900).max(2015).required().messages({
-    'number.base': 'Year must be a number',
-    'number.min': 'Year must be at least {#limit}',
-    'number.max': 'Year must be at most {#limit}',
-    'any.required': 'Year is required'
-  }),
   isFavourite: Joi.boolean().messages({
     'boolean.base': 'isFavourite must be a boolean value'
   }),
