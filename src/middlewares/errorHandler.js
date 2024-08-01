@@ -4,7 +4,7 @@ function errorHandler(error, _req, res, _next) {
   if (isHttpError(error) === true) {
     return res.status(error.status).send({
       status: error.status,
-      message: 'Route not found',
+      message: error.message,
     });
   }
 
