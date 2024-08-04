@@ -27,7 +27,7 @@ async function getContactById(req, res, next) {
      if (contact === null) {
     return next(createHttpError(404, 'Contact not found'));
   }
-    res.send({ status: 200, data: contact });
+    res.send({ status: 200, message: "Successfully found contact!", data: contact });
 };
 
 async function createContact(req, res, next) {
