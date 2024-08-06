@@ -1,4 +1,4 @@
-import { loginUser, logoutUser, refreshUserSession, registerUser } from "../services/auth";
+import { loginUser, logoutUser, refreshUserSession, registerUser } from "../services/auth.js";
 
 
 async function register(req, res) {
@@ -17,7 +17,7 @@ async function login(req, res) {
   const { email, password } = req.body;
 
   const session = await loginUser(email, password);
-
+  console.log(session);
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,

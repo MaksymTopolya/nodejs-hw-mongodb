@@ -1,8 +1,9 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
-import { User } from "../db/models/user";
-import { Session } from '../db/models/session';
-import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants';
+import { User } from "../db/models/user.js";
+import { Session } from '../db/models/session.js';
+import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+
 
 async function registerUser(user) {
   const maybeUser = await User.findOne({ email: user.email });
@@ -16,15 +17,16 @@ async function registerUser(user) {
   return User.create(user);
 }
 
-async function loginUser(email, password) {
+async function  loginUser(email, password) {
   const maybeUser = await User.findOne({ email });
+
 
   if (maybeUser === null) {
     throw createHttpError(404, 'User not found');
   }
 
   const isMatch = await bcrypt.compare(password, maybeUser.password);
-
+  
   if (isMatch === false) {
     throw createHttpError(401, 'Unauthorize');
   }
@@ -33,6 +35,7 @@ async function loginUser(email, password) {
 
   const accessToken = crypto.randomBytes(30).toString('base64');
   const refreshToken = crypto.randomBytes(30).toString('base64');
+
 
   return Session.create({
     userId: maybeUser._id,
