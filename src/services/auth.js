@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import { User } from "../db/models/user.js";
 import { Session } from '../db/models/session.js';
 import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+import crypto from 'crypto';
 
 
 async function registerUser(user) {
