@@ -12,7 +12,8 @@ async function getContacts(req, res, next) {
     perPage,
     sortBy,
     sortOrder,
-  });
+    userId: req.user._id,
+    });
   res.send({
     status: 200,
     message: "Successfully found contacts!",

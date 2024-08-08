@@ -18,9 +18,8 @@ async function registerUser(user) {
   return User.create(user);
 }
 
-async function  loginUser(email, password) {
+async function loginUser(email, password) {
   const maybeUser = await User.findOne({ email });
-
 
   if (maybeUser === null) {
     throw createHttpError(404, 'User not found');
