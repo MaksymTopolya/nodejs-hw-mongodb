@@ -10,14 +10,14 @@ async function register(req, res) {
 
   const registeredUser = await registerUser(user);
 
-  res.send({ status: 200, message: 'Successfully registered a user!', data: registeredUser });
+  res.send({ status: 201, message: 'Successfully registered a user!', data: registeredUser });
 }
 
 async function login(req, res) {
   const { email, password } = req.body;
 
   const session = await loginUser(email, password);
-  console.log(session);
+  
   res.cookie('refreshToken', session.refreshToken, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,

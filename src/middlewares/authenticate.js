@@ -1,5 +1,4 @@
 import createHttpError from 'http-errors';
-
 import { User } from '../db/models/user.js';
 import { Session } from '../db/models/session.js';
 
@@ -7,9 +6,9 @@ export async function authenticate(req, res, next) {
   if (typeof req.headers.authorization !== 'string') {
     return next(createHttpError(401, 'Please provide Authorization header'));
   }
-
+  
   const [bearer, accessToken] = req.headers.authorization.split(' ', 2);
-
+console.log(req.headers.authorization)
   if (bearer !== 'Bearer' || typeof accessToken !== 'string') {
     return next(createHttpError(401, 'Auth header should be type of Bearer'));
   }
