@@ -8,7 +8,7 @@ export async function authenticate(req, res, next) {
   }
   
   const [bearer, accessToken] = req.headers.authorization.split(' ', 2);
-console.log(req.headers.authorization)
+
   if (bearer !== 'Bearer' || typeof accessToken !== 'string') {
     return next(createHttpError(401, 'Auth header should be type of Bearer'));
   }

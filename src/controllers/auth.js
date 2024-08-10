@@ -10,7 +10,7 @@ async function register(req, res) {
 
   const registeredUser = await registerUser(user);
 
-  res.send({ status: 201, message: 'Successfully registered a user!', data: registeredUser });
+  res.status(201).send({ status: 201, message: 'Successfully registered a user!', data: registeredUser });
 }
 
 async function login(req, res) {
