@@ -7,7 +7,6 @@ async function getContacts({ page, perPage, sortBy, sortOrder, userId }) {
     const skip = page > 0 ? (page - 1) * perPage : 0;
 
   const contactQuery = Contact.find();
-  console.log(contactQuery)
     contactQuery.where('userId').equals(userId);
 
     try {

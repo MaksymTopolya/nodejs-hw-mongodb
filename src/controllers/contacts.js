@@ -38,8 +38,10 @@ async function createContact(req, res, next) {
             phoneNumber: req.body.phoneNumber,
             email: req.body.email,
             isFavourite: req.body.isFavourite ?? false,
-            contactType: req.body.contactType ?? 'personal'
-        };
+            contactType: req.body.contactType ?? 'personal',
+            userId: req.user._id
+      };
+      console.log(req.user._id);
 
         const createdContact = await ContactService.createContact(contact);
         res.status(201).send({ status: 201, message: 'Contact created', data: createdContact });
@@ -48,6 +50,9 @@ async function createContact(req, res, next) {
         next(error);
     }
 }
+
+
+
 
 async function deleteContact(req, res, next) {
   const { contactId } = req.params;
