@@ -21,5 +21,8 @@ export const contactSchema = Joi.object({
   contactType: Joi.string().valid('work', 'home', 'personal').required().messages({
     'any.only': 'Contact type must be one of {#valids}',
     'any.required': 'Contact type is required'
+  }),
+  photo: Joi.string().uri().messages({
+    'string.uri': 'Photo must be a valid URL'
   })
 });
