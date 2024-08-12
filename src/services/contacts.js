@@ -52,6 +52,8 @@ function updateContact(contactId, contact) {
   return Contact.findByIdAndUpdate(contactId, contact, { new: true }); 
 }
 
+
+
 export {
   getContacts,
   getContactById,

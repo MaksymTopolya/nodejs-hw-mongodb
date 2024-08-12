@@ -2,8 +2,13 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import { User } from "../db/models/user.js";
 import { Session } from '../db/models/session.js';
-import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL } from '../constants/index.js';
+import { ACCESS_TOKEN_TTL, REFRESH_TOKEN_TTL, Template_Dir } from '../constants/index.js';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import { sendMail } from '../utils/sendMail.js';
+import handlebars from 'handlebars';
+import path from "node:path";
+import fs from "node:fs/promises";
 
 
 async function registerUser(user) {
@@ -72,7 +77,73 @@ async function refreshUserSession(sessionId, refreshToken) {
   });
 }
 
+async function requestResetEmail(email) {
+  const user = await User.findOne({ email });
+
+   if (user === null) {
+    throw createHttpError(404, 'User not found');
+  }
+
+  const token = jwt.sign({
+    sub: user._id,
+    email: user.email,
+  }, process.env.JWT_SECRET, {
+    expiresIn: "15m",
+  });
+
+  const template = path.join(Template_Dir, "reset-password-email.html");
+    const source = await fs.readFile(template, { encoding: "utf-8" });
+
+  const compile = handlebars.compile(source);
+
+  const html = compile({
+    name: user.name,
+    link: `https://myproject/reset-password?token=${token}`
+  });
+    
+  try {
+    await sendMail({
+      from: process.env.SMTP_FROM,
+      to: email,
+      subject: "Reset your email",
+      html
+    });
+  } catch (error) {
+    throw createHttpError(500, 'Failed to send the email, please try again later.');
+  }
+}
+
+
+async function resetPwd(password, token) {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log(decoded);
+
+    const user = await User.findOne({ _id: decoded.sub, email: decoded.email });
+
+    if (user === null) {
+      throw createHttpError(404, 'User not found');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+  } catch (error) {
+    if (
+      error.name === 'TokenExpiredError' ||
+      error.name === 'JsonWebTokenError'
+    ) {
+      throw createHttpError(401, 'Token not valid');
+    }
+
+    throw error;
+  }
+}
+
+
+
 export {
     registerUser,
-    loginUser, logoutUser, refreshUserSession
+    loginUser, logoutUser, refreshUserSession, requestResetEmail, resetPwd
 };

@@ -1,4 +1,4 @@
-import { loginUser, logoutUser, refreshUserSession, registerUser } from "../services/auth.js";
+import { loginUser, logoutUser, refreshUserSession, registerUser, requestResetEmail, resetPwd } from "../services/auth.js";
 
 
 async function register(req, res) {
@@ -55,7 +55,7 @@ async function refresh(req, res) {
   );
 
   res.cookie('refreshToken', session.refreshToken, {
-    httpOnly: true,
+    httpOnly: true, 
     expires: session.refreshTokenValidUntil,
   });
 
@@ -73,4 +73,28 @@ async function refresh(req, res) {
   });
 }
 
-export { register, login, logout, refresh };
+async function requestResEmail(req, res) {
+  await requestResetEmail(req.body.email);
+
+  res.send({
+    status: 200,
+    message: 'Reset password email was successfully sent!',
+    data: {},
+  });
+}
+
+
+async function requestResPwd(req, res) {
+  const { password, token } = req.body;
+  await resetPwd(password, token);
+  
+  res.send({
+    status: 200,
+    message: 'Password has been successfully reset.',
+    data: {},
+  });
+}
+
+
+
+export { register, login, logout, refresh, requestResEmail, requestResPwd  };
