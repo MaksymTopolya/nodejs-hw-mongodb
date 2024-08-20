@@ -1,0 +1,43 @@
+type: object
+required:
+  - _id
+  - name
+  - gender
+  - email
+  - year
+  - onDuty
+  - parentId
+properties:
+  _id:
+    description: "Contact's id"
+    type: string
+    example: 66995563aac8191253f0bfd8
+  name:
+    description: "Contact's name"
+    type: string
+    example: 'John Doe'
+  phoneNumber:
+    description: "Contact's phone number"
+    type: string
+    example: '0673840510'
+  email:
+    description: "Contact's email"
+    type: string
+    example: 'johndoe@gmail.com'
+  isFavourite:
+    description: 'Is this a favourite contact?'
+    type: boolean
+    example: false
+  contactType:
+    description: 'Type of contact'
+    type: string
+    enum: ['work', 'home', 'personal']
+    example: 'personal'
+  photo:
+    description: "Contact's photo ID"
+    type: string
+    example: '66a92312c1de214c68f17d10'
+  userId:
+    description: 'ID of the user who owns this contact'
+    type: string
+    example: '66995563aac8191253f0bfd8'
