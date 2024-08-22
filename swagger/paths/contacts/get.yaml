@@ -5,6 +5,13 @@ operationId: listContacts
 description: Retrieve a list of all contacts
 security:
   - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: string
+      example: 66995563aac8191253f0bfd8
 responses:
   '200':
     description: Successfully retrieved contacts
