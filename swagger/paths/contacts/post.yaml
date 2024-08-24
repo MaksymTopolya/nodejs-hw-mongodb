@@ -1,29 +1,47 @@
 tags:
   - Contacts
-summary: Create a new contact
+summary: Create contact
 operationId: createContact
-description: Add a new contact to the list.
+description: 'Create a new contact'
 security:
   - bearerAuth: []
 requestBody:
-  required: true
   content:
     multipart/form-data:
       schema:
         type: object
         required:
           - name
-          - email
+          - phoneNumber
+          - contactType
         properties:
           name:
+            description: contacts name
             type: string
-            example: 'John Doe'
-          email:
-            type: string
-            example: 'johndoe@gmail.com'
+            example: Vlad Example
           phoneNumber:
+            description: 'contacts phone number, starts with + and includes only numbers'
             type: string
-            example: '0673840510'
+            example: '+380002002002'
+          email:
+            description: contacts email
+            type: string
+            example: 'example@mail.com'
+          isFavourite:
+            description: is this contact favourite or not
+            type: boolean
+            example: true
+            default: false
+          contactType:
+            description: type of contact
+            type: string
+            enum: ['work', 'home', 'personal']
+            example: work
+          photo:
+            description: 'contacts photo'
+            type: string
+            format: binary
+            example: https://res.cloudinary.com/dyfmga5cd/image/upload/v1723409623/rdhl4c5cgpipyzmgj6up.jpg
 responses:
   '201':
     description: Successfully created contact
