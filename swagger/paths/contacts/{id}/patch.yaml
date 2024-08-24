@@ -1,8 +1,8 @@
 tags:
   - Contacts
-summary: Update a contact by ID
+summary: Patch contact by id
 operationId: updateContactById
-description: Update the details of a specific contact by its ID.
+description: 'Update contact info by id'
 security:
   - bearerAuth: []
 parameters:
@@ -11,33 +11,40 @@ parameters:
     required: true
     schema:
       type: string
-      example: 66995563aac8191253f0bfd8
+      example: 6692f26c48ae6530ff163510
 requestBody:
-  required: true
   content:
     multipart/form-data:
       schema:
         type: object
         properties:
           name:
+            description: contacts name
             type: string
-            example: 'John Doe'
-          email:
-            type: string
-            example: 'johndoe@gmail.com'
+            example: Vlad Example
           phoneNumber:
+            description: 'contacts phone number, starts with + and includes only numbers'
             type: string
-            example: '0673840510'
+            example: '+380002002002'
+          email:
+            description: contacts email
+            type: string
+            example: 'example@mail.com'
           isFavourite:
+            description: is this contact favourite or not
             type: boolean
-            example: false
+            example: true
+            default: false
           contactType:
+            description: type of contact
             type: string
-            enum: ['personal', 'work', 'home']
-            example: 'personal'
+            enum: ['work', 'home', 'personal']
+            example: work
           photo:
+            description: 'contacts photo'
             type: string
-            example: '66a92312c1de214c68f17d10'
+            format: binary
+            example: https://res.cloudinary.com/dyfmga5cd/image/upload/v1723409623/rdhl4c5cgpipyzmgj6up.jpg
 responses:
   '200':
     description: Contact successfully updated
