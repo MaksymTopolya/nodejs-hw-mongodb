@@ -1,17 +1,49 @@
 tags:
   - Contacts
-summary: List all contacts
-operationId: listContacts
-description: Retrieve a list of all contacts
+summary: Get all contacts
+operationId: getContacts
+description: 'Get all contacts'
 security:
   - bearerAuth: []
 parameters:
-  - in: path
-    name: id
-    required: true
+  - in: query
+    name: page
+    schema:
+      type: integer
+      example: 1
+    description: 'Number of page'
+  - in: query
+    name: perPage
+    schema:
+      type: integer
+      example: 15
+    description: 'How much items will be on the page'
+  - in: query
+    name: sortBy
     schema:
       type: string
-      example: 66995563aac8191253f0bfd8
+      example: 'name'
+    description: 'Sort by any available field of contacts info, default sorted by _id'
+  - in: query
+    name: sortOrder
+    schema:
+      type: string
+      enum: [asc, desc]
+      example: asc
+    description: 'In which way it sorted, ascending or descending'
+  - in: query
+    name: isFavourite
+    schema:
+      type: boolean
+      example: true
+    description: 'Is this contact favourite or not'
+  - in: query
+    name: contactType
+    schema:
+      type: string
+      enum: ['work', 'home', 'personal']
+      example: 'work'
+    description: 'What type of contact'
 responses:
   '200':
     description: Successfully retrieved contacts
