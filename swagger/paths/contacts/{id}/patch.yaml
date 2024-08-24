@@ -28,6 +28,16 @@ requestBody:
           phoneNumber:
             type: string
             example: '0673840510'
+          isFavourite:
+            type: boolean
+            example: false
+          contactType:
+            type: string
+            enum: ['personal', 'work', 'home']
+            example: 'personal'
+          photo:
+            type: string
+            example: '66a92312c1de214c68f17d10'
 responses:
   '200':
     description: Contact successfully updated
@@ -54,7 +64,6 @@ responses:
           required:
             - status
             - message
-            - data
           properties:
             status:
               type: integer

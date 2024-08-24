@@ -13,7 +13,8 @@ requestBody:
         type: object
         required:
           - name
-          - email
+          - phoneNumber
+          - contactType
         properties:
           name:
             type: string
@@ -24,6 +25,17 @@ requestBody:
           phoneNumber:
             type: string
             example: '0673840510'
+          isFavourite:
+            type: boolean
+            example: false
+          contactType:
+            type: string
+            enum: ['personal', 'work', 'home']
+            example: 'personal'
+          photo:
+            type: string
+            example: '66a92312c1de214c68f17d10'
+
 responses:
   '201':
     description: Successfully created contact
